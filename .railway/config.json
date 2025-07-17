@@ -1,6 +1,0 @@
-{
-  "static": {
-    "buildCommand": "npm run build",
-    "publishDirectory": "build"
-  }
-}
