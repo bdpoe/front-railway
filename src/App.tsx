@@ -6,7 +6,10 @@ function App() {
     nombre: "",
     apellido: "",
     dni: "",
+    correo: "",
+    mensaje: "",
   });
+
   const URL = process.env.REACT_APP_API_URL;
   const [formSuccess, setFormSuccess] = useState(false);
   const navigate = useNavigate();
@@ -25,7 +28,13 @@ function App() {
 
       if (response.ok) {
         setFormSuccess(true);
-        setUser({ nombre: "", apellido: "", dni: "" });
+        setUser({
+          nombre: "",
+          apellido: "",
+          dni: "",
+          correo: "",
+          mensaje: "",
+        });
       } else {
         alert("Error al enviar el formulario.");
       }
@@ -34,7 +43,9 @@ function App() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     if (name === "dni") {
@@ -109,6 +120,31 @@ function App() {
             />
           </fieldset>
 
+          <fieldset style={styles.fieldset}>
+            <label htmlFor="correo" style={styles.label}>Correo:</label>
+            <input
+              type="email"
+              id="correo"
+              name="correo"
+              onChange={handleInputChange}
+              value={user.correo}
+              required
+              style={styles.input}
+            />
+          </fieldset>
+
+          <fieldset style={styles.fieldset}>
+            <label htmlFor="mensaje" style={styles.label}>Mensaje:</label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              onChange={handleInputChange}
+              value={user.mensaje}
+              rows={3}
+              style={{ ...styles.input, resize: "none", height: "60px" }}
+            />
+          </fieldset>
+
           <button type="submit" style={styles.buttonPrimary}>
             ENVIAR
           </button>
@@ -116,7 +152,15 @@ function App() {
 
         <button
           style={styles.buttonSecondary}
-          onClick={() => setUser({ nombre: "", apellido: "", dni: "" })}
+          onClick={() =>
+            setUser({
+              nombre: "",
+              apellido: "",
+              dni: "",
+              correo: "",
+              mensaje: "",
+            })
+          }
         >
           LIMPIAR
         </button>
