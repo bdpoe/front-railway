@@ -6,21 +6,21 @@ interface Usuario {
   nombre: string;
   apellido: string;
   dni: string;
-  correo: string;
-  mensaje: string;
-}
+} 
+
 
 const Usuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  
   const navigate = useNavigate();
   const URL = process.env.REACT_APP_API_URL;
 
-  useEffect(() => {
+    useEffect(() => {
     fetch(`${URL}/api/usuarios`)
       .then(res => res.json())
       .then(data => setUsuarios(data))
       .catch(err => console.error("Error al obtener usuarios:", err));
-  }, [URL]);
+      }, [URL]);
 
   return (
     <div style={styles.container}>
@@ -32,10 +32,7 @@ const Usuarios: React.FC = () => {
         <ul style={styles.list}>
           {usuarios.map((user) => (
             <li key={user.id} style={styles.item}>
-              <p><strong>Nombre:</strong> {user.nombre} {user.apellido}</p>
-              <p><strong>DNI:</strong> {user.dni}</p>
-              <p><strong>Correo:</strong> {user.correo}</p>
-              <p><strong>Mensaje:</strong> {user.mensaje}</p>
+              <strong>{user.nombre} {user.apellido}</strong> — DNI: {user.dni}
             </li>
           ))}
         </ul>
@@ -67,9 +64,8 @@ const styles = {
     padding: 0,
   },
   item: {
-    padding: "15px",
+    padding: "10px",
     borderBottom: "1px solid #ddd",
-    marginBottom: "15px",
   },
   button: {
     marginTop: "30px",
@@ -87,3 +83,4 @@ const styles = {
 };
 
 export default Usuarios;
+ 
