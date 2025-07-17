@@ -8,17 +8,20 @@ interface Usuario {
   dni: string;
 } 
 
+
 const Usuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+
+  
   const navigate = useNavigate();
   const URL = process.env.REACT_APP_API_URL;
 
-  useEffect(() => {
+    useEffect(() => {
     fetch(`${URL}/api/usuarios`)
-      .then((res) => res.json())
-      .then((data) => setUsuarios(data))
-      .catch((err) => console.error("Error al cargar usuarios", err));
-  }, []);
+      .then(res => res.json())
+      .then(data => setUsuarios(data))
+      .catch(err => console.error("Error al obtener usuarios:", err));
+      }, [URL]);
 
   return (
     <div style={styles.container}>
