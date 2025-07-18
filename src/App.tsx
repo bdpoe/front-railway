@@ -15,7 +15,8 @@ function App() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${URL}/api/form`, {
+      // 1. Enviar al backend (Railway)
+      const responseBackend = await fetch(`${URL}/api/form`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,7 +24,21 @@ function App() {
         body: JSON.stringify(user),
       });
 
-      if (response.ok) {
+      // 2. Enviar a Formspree (correo electrónico)
+      const formspreeData = new FormData();
+      formspreeData.append("nombre", user.nombre);
+      formspreeData.append("apellido", user.apellido);
+      formspreeData.append("dni", user.dni);
+
+      const responseFormspree = await fetch("https://formspree.io/f/xyzjvwww", {
+        method: "POST",
+        body: formspreeData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (responseBackend.ok && responseFormspree.ok) {
         setFormSuccess(true);
         setUser({ nombre: "", apellido: "", dni: "" });
       } else {
@@ -31,12 +46,12 @@ function App() {
       }
     } catch (error) {
       console.error("Error:", error);
+      alert("Ocurrió un error al enviar el formulario.");
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     if (name === "dni") {
       if (/^\d{0,8}$/.test(value)) {
         setUser({ ...user, dni: value });
@@ -109,22 +124,13 @@ function App() {
             />
           </fieldset>
 
-          <button type="submit" style={styles.buttonPrimary}>
-            ENVIAR
-          </button>
+          <button type="submit" style={styles.buttonPrimary}>ENVIAR</button>
         </form>
 
-        <button
-          style={styles.buttonSecondary}
-          onClick={() => setUser({ nombre: "", apellido: "", dni: "" })}
-        >
+        <button style={styles.buttonSecondary} onClick={() => setUser({ nombre: "", apellido: "", dni: "" })}>
           LIMPIAR
         </button>
-
-        <button
-          style={styles.buttonSecondary}
-          onClick={() => navigate("/usuarios")}
-        >
+        <button style={styles.buttonSecondary} onClick={() => navigate("/usuarios")}>
           VER REGISTROS
         </button>
       </div>

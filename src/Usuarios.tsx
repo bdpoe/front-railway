@@ -11,11 +11,12 @@ interface Usuario {
 
 const Usuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+
   
   const navigate = useNavigate();
   const URL = process.env.REACT_APP_API_URL;
 
-    useEffect(() => {
+  useEffect(() => {
     fetch(`${URL}/api/usuarios`)
       .then(res => res.json())
       .then(data => setUsuarios(data))
