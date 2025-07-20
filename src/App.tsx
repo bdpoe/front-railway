@@ -66,7 +66,7 @@ function App() {
     return (
       <div style={styles.centeredBox}>
         <div style={styles.card}>
-          <h2 style={styles.title}>Tu formulario fue enviado con éxito/Gracias por participar.</h2>
+          <h2 style={styles.title}>Tu formulario fue enviado con éxito</h2>
           <h3 style={styles.subtitle2}>Gracias</h3>
           <button style={styles.buttonPrimary} onClick={() => setFormSuccess(false)}>
             Enviar otro
