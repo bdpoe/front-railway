@@ -15,7 +15,7 @@ function App() {
     e.preventDefault();
 
     try {
-      // 1. Enviar al backend (Railway)
+      // Enviar al backend
       const responseBackend = await fetch(`${URL}/api/form`, {
         method: "POST",
         headers: {
@@ -24,21 +24,22 @@ function App() {
         body: JSON.stringify(user),
       });
 
-      // 2. Enviar a Formspree (correo electrónico)
-      const formspreeData = new FormData();
-      formspreeData.append("nombre", user.nombre);
-      formspreeData.append("apellido", user.apellido);
-      formspreeData.append("dni", user.dni);
-
-      const responseFormspree = await fetch("https://formspree.io/f/xyzjvwww", {
+      // También podrías enviar por Formspree si lo deseas en el futuro
+      /*
+      const responseFormspree = await fetch("https://formspree.io/f/xyz123", {
         method: "POST",
-        body: formspreeData,
         headers: {
-          Accept: "application/json",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          nombre: user.nombre,
+          apellido: user.apellido,
+          dni: user.dni,
+        }),
       });
+      */
 
-      if (responseBackend.ok && responseFormspree.ok) {
+      if (responseBackend.ok /* && responseFormspree.ok */) {
         setFormSuccess(true);
         setUser({ nombre: "", apellido: "", dni: "" });
       } else {
@@ -65,8 +66,7 @@ function App() {
     return (
       <div style={styles.centeredBox}>
         <div style={styles.card}>
-          <h2 style={styles.title}>Tu formulario fue enviado con éxito</h2>
-
+          <h2 style={styles.title}>Tu formulario fue enviado con éxito/Gracias por participar.</h2>
           <h3 style={styles.subtitle2}>Gracias</h3>
           <button style={styles.buttonPrimary} onClick={() => setFormSuccess(false)}>
             Enviar otro
